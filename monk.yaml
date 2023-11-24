@@ -1,0 +1,38 @@
+namespace: slaytheweb
+
+slay-the-web:
+  defines: runnable
+  metadata:
+    name: slay-the-web
+    description: A single-page application for the digital card game 'Slay the Web'.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    slay-the-web:
+      image: env-2540.registry.local/slay-the-web:main-68ef007
+      build: .
+      dockerfile: Dockerfile.slay-the-web
+  services:
+    http-server:
+      description: HTTP server listening port
+      container: slay-the-web
+      port: 80
+      host-port: 80
+      publish: true
+      protocol: tcp
+  connections: {}
+  variables:
+    vite-git-hash:
+      env: VITE_GIT_HASH
+      type: string
+      value: exampleHash123
+      description: Git commit hash of the current build
+    vite-git-message:
+      env: VITE_GIT_MESSAGE
+      type: string
+      value: Initial deployment of Slay the Web
+      description: Git commit message of the current build
+
+stack:
+  defines: group
+  members:
+    - slaytheweb/slay-the-web
