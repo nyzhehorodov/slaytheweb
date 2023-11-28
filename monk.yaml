@@ -1,0 +1,40 @@
+namespace: slaytheweb
+
+slay-the-web-frontend:
+  defines: runnable
+  metadata:
+    name: slay-the-web-frontend
+    description: >-
+      Frontend service for the 'Slay the Web' card game, built with JavaScript
+      and Preact.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    slay-the-web-frontend:
+      image: env-2059.registry.local/slay-the-web-frontend:main-68ef007
+      build: .
+      dockerfile: Dockerfile.slay-the-web-frontend
+  services:
+    http:
+      description: HTTP traffic
+      container: slay-the-web-frontend
+      port: 80
+      host-port: 80
+      publish: true
+      protocol: tcp
+  connections: {}
+  variables:
+    vite-git-hash:
+      env: VITE_GIT_HASH
+      type: string
+      value: b123ef9
+      description: Current Git hash of the codebase, set at build time
+    vite-git-message:
+      env: VITE_GIT_MESSAGE
+      type: string
+      value: Update UI for new card mechanics
+      description: Current Git commit message, set at build time
+
+stack:
+  defines: group
+  members:
+    - slaytheweb/slay-the-web-frontend
